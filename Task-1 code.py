@@ -1,10 +1,6 @@
-from scapy.all import sniff
-
-# Define a function to process and display the packet information
+from scapy.all import sniff 
 def packet_callback(packet):
     print(f"Packet: {packet.summary()}")
-    
-    # You can also inspect specific packet layers for more details
     if packet.haslayer('IP'):
         ip_src = packet['IP'].src
         ip_dst = packet['IP'].dst
@@ -19,7 +15,7 @@ def packet_callback(packet):
         udp_src_port = packet['UDP'].sport
         udp_dst_port = packet['UDP'].dport
         print(f"Source Port: {udp_src_port}, Destination Port: {udp_dst_port}")
-
 # Start sniffing packets
 print("Starting packet capture...")
+
 sniff(prn=packet_callback, store=0, count=10)  # Capture 10 packets
