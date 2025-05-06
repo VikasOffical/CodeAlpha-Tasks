@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Code Scanner</title>
+</head>
+<body>
+    <h1>Upload a Python File</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="code_file" accept=".py" required>
+        <button type="submit">Scan</button>
+    </form>
+
+    {% if filename %}
+        <h2>Results for: {{ filename }}</h2>
+        <pre>{{ source_code }}</pre>
+        <ul>
+            {% for result in results %}
+                <li>{{ result }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #343a40;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+        a.button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a.button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scan Results</h1>
+
+    {% if issues %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Issue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ issue }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No issues found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+</body>
+</html>

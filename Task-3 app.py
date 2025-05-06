@@ -1,0 +1,40 @@
+from flask import Flask, request, render_template
+import os
+
+app = Flask(__name__)
+
+# Pass enumerate to Jinja2 environment
+app.jinja_env.globals['enumerate'] = enumerate
+
+# Dummy scanner logic
+def scan_code(content):
+    results = []
+    if 'eval(' in content:
+        results.append("Use of 'eval' found - potential security risk.")
+    if 'exec(' in content:
+        results.append("Use of 'exec' found - potential security risk.")
+    if not results:
+        results.append("No issues detected.")
+    return results
+
+@app.route('/scan', methods=['POST'])
+def scan():
+    code = request.form['code']
+    results = scan_code(code)  # Call the scan_code function on the received code
+    return render_template('scan_results.html', results=results)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        file = request.files.get('code_file')
+        if file and file.filename.endswith('.py'):
+            source_code = file.read().decode('utf-8')
+            results = scan_code(source_code)
+            return render_template('index.html', filename=file.filename, source_code=source_code, results=results)
+        else:
+            return render_template('index.html', filename="Invalid File", source_code="", results=["Only Python files are allowed."])
+    return render_template('index.html', filename=None)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
